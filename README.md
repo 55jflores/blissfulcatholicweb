@@ -16,11 +16,17 @@ Personal / sacred data (journal, confession prep, prayer logs, AI memory) stays 
 |---|---|
 | `app/page.tsx` | Placeholder parchment landing page |
 | `app/api/health/route.ts` | `GET` liveness probe → `{ ok: true }` |
-| `app/api/ai/route.ts` | AI proxy — **501 stub** until its dedicated step |
+| `app/api/ai/route.ts` | AI proxy — JWT auth, entitlement gate, rate limit, streaming Claude reply, usage logging |
+| `lib/ai/gating.ts` | Caller auth, entitlement lookup, rolling-24h rate limit, `api_usage` logging |
+| `lib/prompts/features.ts` | Per-feature prompt fragments (Lectio, Catechism, …) + free-tier set |
 | `lib/supabase/server.ts` | Server clients: cookie (web), service-role (webhooks), JWT (iOS) |
 | `lib/supabase/client.ts` | Browser Supabase client |
 | `lib/prompts/foundation.ts` | Master Catholic system prompt |
 | `supabase/schema.sql` | DB schema + RLS (source of truth) |
+
+### The AI endpoint (`POST /api/ai`)
+
+Requires `Authorization: Bearer <supabase-jwt>`. Body: `{ feature, messages, personalization? }` where `feature` is one of `daily | lectio | catechism | confession_prep | saint | journal_insight`. Responds with a `text/event-stream` of `{"type":"text","text":"…"}` chunks, then `{"type":"done"}`. Free tier gets the `daily` feature (5 calls/24h); the rest require Plus (200 calls/24h). Uses Claude Opus 4.7 with adaptive thinking; the foundation + feature prompt is the cacheable prefix, personalization trails it.
 
 ## Setup
 
@@ -60,6 +66,10 @@ Push to GitHub and import into **Vercel**. Add the same env vars in the Vercel p
 
 ## Not done yet
 
-- Real AI route (Claude integration, safety filter, rate limit via `api_usage`, entitlement gating) — built with the `claude-api` skill in its own step.
-- Stripe / RevenueCat webhook handlers.
+- Stripe / RevenueCat webhook handlers (→ write `subscriptions` via service role).
+- Connecting the iOS app: Supabase Swift SDK auth + calling `/api/ai`.
 - The actual web marketing frontend.
+
+## Verifying the AI route end-to-end
+
+Needs real keys in `.env.local` (`ANTHROPIC_API_KEY` + the Supabase trio) and a signed-in user's JWT. With those set, `POST /api/ai` with a valid `Authorization: Bearer` header streams a reply. Without a key it returns `503 not_configured`; without a token, `401 unauthenticated`.
