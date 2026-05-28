@@ -22,6 +22,7 @@ import {
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs"; // service-role Supabase + streaming need the Node runtime
+export const maxDuration = 60; // allow the streamed Claude reply to run past Vercel's 10s default
 
 const MODEL = "claude-opus-4-7";
 const MAX_TOKENS = 2048; // a companion reply, not an essay (see foundation prompt: "be concise")
