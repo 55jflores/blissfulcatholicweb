@@ -26,7 +26,7 @@ Personal / sacred data (journal, confession prep, prayer logs, AI memory) stays 
 
 ### The AI endpoint (`POST /api/ai`)
 
-Requires `Authorization: Bearer <supabase-jwt>`. Body: `{ feature, messages, personalization? }` where `feature` is one of `daily | lectio | catechism | confession_prep | saint | journal_insight`. Responds with a `text/event-stream` of `{"type":"text","text":"…"}` chunks, then `{"type":"done"}`. Free tier gets the `daily` feature (5 calls/24h); the rest require Plus (200 calls/24h). Uses Claude Opus 4.7 with adaptive thinking; the foundation + feature prompt is the cacheable prefix, personalization trails it.
+Requires `Authorization: Bearer <supabase-jwt>`. Body: `{ feature, messages, personalization? }` where `feature` is one of `daily | lectio | catechism | confession_prep | saint | journal_insight`. Responds with a `text/event-stream` of `{"type":"text","text":"…"}` chunks, then `{"type":"done"}`. Free tier gets the `daily` feature (5 calls/24h); the rest require Plus (200 calls/24h). Model + effort are chosen per feature (`FEATURE_MODEL` in the route): `daily` → Sonnet 4.6, low effort, thinking off (fast/cheap, high-volume); the Plus features → Opus 4.7, with `catechism`/`confession_prep` at high effort and `lectio`/`saint`/`journal_insight` at medium. The foundation + feature prompt is the cacheable prefix; personalization trails it.
 
 ## Setup
 

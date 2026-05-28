@@ -12,7 +12,12 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { FOUNDATION_SYSTEM_PROMPT } from "@/lib/prompts/foundation";
-import { FEATURE_PROMPTS, FREE_FEATURES, isFeatureKey } from "@/lib/prompts/features";
+import {
+  FEATURE_PROMPTS,
+  FREE_FEATURES,
+  isFeatureKey,
+  type FeatureKey,
+} from "@/lib/prompts/features";
 import {
   checkRateLimit,
   getCaller,
@@ -24,10 +29,30 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs"; // service-role Supabase + streaming need the Node runtime
 export const maxDuration = 60; // allow the streamed Claude reply to run past Vercel's 10s default
 
-const MODEL = "claude-opus-4-7";
 const MAX_TOKENS = 2048; // a companion reply, not an essay (see foundation prompt: "be concise")
 
 const anthropic = new Anthropic(); // reads ANTHROPIC_API_KEY
+
+// Per-feature model + reasoning. Cheap/fast Sonnet for the high-volume free
+// reflection; Opus for the accuracy- and sensitivity-critical Plus features.
+// Effort scales with how much correctness the task needs (see README).
+type FeatureModel = {
+  model: string;
+  effort: "low" | "medium" | "high";
+  thinking: boolean;
+};
+
+const SONNET = "claude-sonnet-4-6";
+const OPUS = "claude-opus-4-7";
+
+const FEATURE_MODEL: Record<FeatureKey, FeatureModel> = {
+  daily:           { model: SONNET, effort: "low",    thinking: false }, // short reflection, free, snappy
+  lectio:          { model: OPUS,   effort: "medium", thinking: true },  // contemplative, restrained
+  catechism:       { model: OPUS,   effort: "high",   thinking: true },  // doctrine + CCC citations
+  confession_prep: { model: OPUS,   effort: "high",   thinking: true },  // moral accuracy + gentleness
+  saint:           { model: OPUS,   effort: "medium", thinking: true },  // factual, no fabrication
+  journal_insight: { model: OPUS,   effort: "medium", thinking: true },  // pastoral, not over-analyzing
+};
 
 type ClientMessage = { role: "user" | "assistant"; content: string };
 
@@ -96,6 +121,8 @@ export async function POST(req: Request) {
     );
   }
 
+  const cfg = FEATURE_MODEL[feature]; // model + effort + thinking for this feature
+
   // 4. System prompt — stable prefix (foundation + feature) is cached; the
   //    per-user personalization block trails it, after the cache breakpoint.
   //    NOTE: caching only engages once the prefix exceeds ~4096 tokens (Opus 4.7
@@ -123,10 +150,10 @@ export async function POST(req: Request) {
 
       try {
         const claude = anthropic.messages.stream({
-          model: MODEL,
+          model: cfg.model,
           max_tokens: MAX_TOKENS,
-          thinking: { type: "adaptive" }, // Claude decides depth; pairs with effort
-          output_config: { effort: "medium" }, // balance pastoral quality vs. latency
+          thinking: cfg.thinking ? { type: "adaptive" } : { type: "disabled" },
+          output_config: { effort: cfg.effort },
           system,
           messages: messages as ClientMessage[],
         });
@@ -147,7 +174,7 @@ export async function POST(req: Request) {
         await logUsage({
           userId: caller.userId,
           endpoint: `ai/${feature}`,
-          model: MODEL,
+          model: cfg.model,
           inputTokens: final.usage.input_tokens,
           outputTokens: final.usage.output_tokens,
         });
