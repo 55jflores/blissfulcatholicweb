@@ -1,0 +1,27 @@
+/* Lumen parchment palette — mirrors the iOS app's light theme so the web
+   frontend and the app feel like one product. (See lumen-design-decisions.) */
+:root {
+  --parchment: #f4ecdb;
+  --ink: #2a1f17;
+  --ink-soft: #6b5d4f;
+  --gold: #b8956a;
+  --rule: rgba(42, 31, 23, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: "New York", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
