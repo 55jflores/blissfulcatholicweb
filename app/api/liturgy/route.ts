@@ -39,6 +39,64 @@ async function calendarForYear(year: number): Promise<RomcalDay[]> {
   return cal;
 }
 
+// ---------------------------------------------------------------------------
+// Reading citations
+//
+// The day's lectionary citations come from cpbjr.github.io/catholic-readings-api,
+// which returns the reading references as plain strings (no bundled scripture
+// text). We accept *only* the citation strings here — if the upstream shape ever
+// changes to include text, this code still extracts citations only and ignores
+// the rest. iOS resolves citations against bundled WEBCE locally.
+
+type ReadingCitation = { label: string; citation: string };
+
+const READING_LABELS: Record<string, string> = {
+  firstReading: "First Reading",
+  psalm: "Responsorial Psalm",
+  secondReading: "Second Reading",
+  gospel: "Gospel",
+};
+const READING_KEYS = ["firstReading", "psalm", "secondReading", "gospel"] as const;
+
+// Per-date cache for warm functions (the upstream is small + deterministic).
+const readingsCache = new Map<string, ReadingCitation[] | null>();
+
+async function fetchReadings(date: string): Promise<ReadingCitation[] | null> {
+  if (readingsCache.has(date)) return readingsCache.get(date) ?? null;
+
+  const [yyyy, mm, dd] = date.split("-");
+  const url = `https://cpbjr.github.io/catholic-readings-api/readings/${yyyy}/${mm}-${dd}.json`;
+
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) {
+      readingsCache.set(date, null);
+      return null;
+    }
+    const data = (await res.json()) as { readings?: Record<string, unknown> };
+    const r = data?.readings;
+    if (!r || typeof r !== "object") {
+      readingsCache.set(date, null);
+      return null;
+    }
+
+    const readings: ReadingCitation[] = [];
+    for (const key of READING_KEYS) {
+      const citation = r[key];
+      if (typeof citation === "string" && citation.trim().length > 0) {
+        readings.push({ label: READING_LABELS[key], citation: citation.trim() });
+      }
+    }
+    const result = readings.length > 0 ? readings : null;
+    readingsCache.set(date, result);
+    return result;
+  } catch {
+    // Network / timeout / parse failure — return null and let the rest of the
+    // calendar payload still serve.
+    return null;
+  }
+}
+
 export async function GET(req: Request) {
   const date =
     new URL(req.url).searchParams.get("date") ??
@@ -51,7 +109,11 @@ export async function GET(req: Request) {
     );
   }
 
-  const cal = await calendarForYear(Number(date.slice(0, 4)));
+  // Calendar + readings in parallel (independent upstreams).
+  const [cal, readings] = await Promise.all([
+    calendarForYear(Number(date.slice(0, 4))),
+    fetchReadings(date),
+  ]);
   const day = cal.find((d) => String(d.moment).slice(0, 10) === date);
   if (!day) {
     return Response.json(
@@ -70,6 +132,7 @@ export async function GET(req: Request) {
       color: day.data?.meta?.liturgicalColor?.key ?? null, // e.g. "GREEN"
       colorHex: day.data?.meta?.liturgicalColor?.value ?? null,
       cycle: day.data?.meta?.cycle?.value ?? null,
+      readings, // null if the upstream is unreachable or has no data for the date
     },
     { headers: { "Cache-Control": "public, max-age=3600, s-maxage=86400" } }
   );

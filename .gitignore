@@ -28,3 +28,6 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# WEBCE build artifacts (regenerated from scripts/data/eng-web-c_usfm.zip)
+scripts/_webce-build/
