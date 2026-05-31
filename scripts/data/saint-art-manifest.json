@@ -1,0 +1,40 @@
+{
+  "_attribution_policy": "Each painting selected as a public-domain Catholic artwork representative of the saint. Pre-1928 US publication unless otherwise noted. Sources: Wikimedia Commons (which performs legal-status review at upload), with museum open-access programs as secondary source.",
+  "_notes": {
+    "padre_pio": "20th-century saint — no public-domain paintings exist. Substituted with a public-domain photograph of San Giovanni Rotondo (the friary where he lived and ministered).",
+    "patrick_athanasius_rita": "Not subjects of major Renaissance/Baroque art. Substituted with later public-domain devotional images or related iconography.",
+    "guadalupe": "The original tilma image is itself the artwork — a 16th-century miraculous image, public domain."
+  },
+  "artworks": [
+    { "key": "mary-mother-of-god", "artist": "Giovanni Battista Salvi (Sassoferrato)", "title": "The Virgin in Prayer", "year": "c. 1640-50", "source": "National Gallery, London" },
+    { "key": "thomas-aquinas", "artist": "Carlo Crivelli", "title": "Saint Thomas Aquinas (Demidoff Altarpiece detail)", "year": "1476", "source": "National Gallery, London" },
+    { "key": "patrick", "artist": "Vincenzo Catena (workshop)", "title": "Saint Patrick", "year": "16th century", "source": "Public domain devotional image" },
+    { "key": "joseph", "artist": "Guido Reni", "title": "Saint Joseph with the Infant Jesus", "year": "c. 1635", "source": "State Hermitage Museum" },
+    { "key": "annunciation", "artist": "Fra Angelico", "title": "The Annunciation (Cortona)", "year": "c. 1433-34", "source": "Museo Diocesano, Cortona" },
+    { "key": "catherine-of-siena", "artist": "Domenico Beccafumi", "title": "Saint Catherine of Siena Receiving the Stigmata", "year": "c. 1513-15", "source": "J. Paul Getty Museum" },
+    { "key": "athanasius", "artist": "Russian Orthodox icon", "title": "Saint Athanasius the Great of Alexandria", "year": "Pre-1928 icon", "source": "Public domain" },
+    { "key": "philip-and-james", "artist": "Albrecht Dürer", "title": "Saint Philip (engraving)", "year": "1526", "source": "Public domain print" },
+    { "key": "rita-of-cascia", "artist": "Anonymous Italian (Augustinian devotional)", "title": "Saint Rita of Cascia", "year": "17th-18th century", "source": "Public domain devotional image" },
+    { "key": "anthony-of-padua", "artist": "Bartolomé Esteban Murillo", "title": "The Vision of Saint Anthony of Padua", "year": "1656", "source": "Seville Cathedral" },
+    { "key": "nativity-of-john-the-baptist", "artist": "Domenico Ghirlandaio", "title": "The Birth of Saint John the Baptist", "year": "1486-90", "source": "Tornabuoni Chapel, Santa Maria Novella, Florence" },
+    { "key": "peter-and-paul", "artist": "El Greco", "title": "Saints Peter and Paul", "year": "1587-92", "source": "State Hermitage Museum" },
+    { "key": "junipero-serra", "artist": "Mariano Guerrero / 18th-century Spanish", "title": "Portrait of Padre Junípero Serra", "year": "c. 1785", "source": "Mission San Carlos Borromeo del Río Carmelo" },
+    { "key": "thomas-apostle", "artist": "Caravaggio", "title": "The Incredulity of Saint Thomas", "year": "1601-02", "source": "Sanssouci Picture Gallery, Potsdam" },
+    { "key": "mary-magdalene", "artist": "Caravaggio", "title": "Penitent Magdalene", "year": "c. 1594-95", "source": "Galleria Doria Pamphilj, Rome" },
+    { "key": "james-the-greater", "artist": "El Greco", "title": "Saint James the Greater", "year": "c. 1606", "source": "Museo del Greco, Toledo" },
+    { "key": "assumption", "artist": "Bartolomé Esteban Murillo", "title": "The Immaculate Conception of the Venerable Ones (Assumption variant)", "year": "c. 1678", "source": "Museo del Prado, Madrid" },
+    { "key": "bartholomew", "artist": "José de Ribera", "title": "The Martyrdom of Saint Bartholomew", "year": "1644", "source": "Museu Nacional d'Art de Catalunya" },
+    { "key": "augustine-of-hippo", "artist": "Sandro Botticelli", "title": "Saint Augustine in His Study", "year": "1480", "source": "Chiesa di Ognissanti, Florence" },
+    { "key": "our-lady-of-sorrows", "artist": "Giovanni Battista Salvi (Sassoferrato)", "title": "Mater Dolorosa", "year": "c. 1640-50", "source": "Public domain" },
+    { "key": "matthew", "artist": "Caravaggio", "title": "The Calling of Saint Matthew", "year": "1599-1600", "source": "Contarelli Chapel, San Luigi dei Francesi, Rome" },
+    { "key": "padre-pio", "artist": "Substitute (no PD portrait available)", "title": "San Giovanni Rotondo friary (PD photograph)", "year": "Pre-1928 architecture / public domain", "source": "Public domain" },
+    { "key": "jerome", "artist": "Caravaggio", "title": "Saint Jerome Writing", "year": "c. 1605-06", "source": "Galleria Borghese, Rome" },
+    { "key": "therese-of-lisieux", "artist": "Céline Martin (her sister)", "title": "Photograph of Saint Thérèse of Lisieux", "year": "1895", "source": "Carmel of Lisieux archive (US public domain by date)" },
+    { "key": "francis-of-assisi", "artist": "Giotto di Bondone", "title": "Saint Francis Preaching to the Birds", "year": "c. 1297-99", "source": "Upper Basilica of Saint Francis, Assisi" },
+    { "key": "all-saints", "artist": "Fra Angelico", "title": "The Forerunners of Christ with Saints and Martyrs", "year": "c. 1423-24", "source": "National Gallery, London" },
+    { "key": "andrew", "artist": "José de Ribera", "title": "Saint Andrew", "year": "c. 1630", "source": "Public domain" },
+    { "key": "immaculate-conception", "artist": "Bartolomé Esteban Murillo", "title": "The Immaculate Conception of the Venerable Ones", "year": "c. 1678", "source": "Museo del Prado, Madrid" },
+    { "key": "our-lady-of-guadalupe", "artist": "Anonymous (the original tilma image)", "title": "Our Lady of Guadalupe", "year": "1531", "source": "Basilica of Our Lady of Guadalupe, Mexico City" },
+    { "key": "john-the-evangelist", "artist": "El Greco", "title": "Saint John the Evangelist", "year": "c. 1604", "source": "Museo del Prado, Madrid" }
+  ]
+}
