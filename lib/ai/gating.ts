@@ -16,6 +16,19 @@ const DAILY_LIMITS: Record<Entitlement, number> = {
 
 const WINDOW_MS = 24 * 60 * 60 * 1000;
 
+// ---------------------------------------------------------------------------
+// BETA OVERRIDE — flip to `false` when Phase 5 paywall ships.
+//
+// While the app is in TestFlight without a paywall, every signed-in user is
+// granted `plus` so testers can evaluate all AI surfaces (Lectio, Catechism,
+// Confession prep, Saint reflections, Journal insight, etc.) and get the
+// 200/24h ceiling instead of the 5/24h free abuse guard.
+//
+// When StoreKit + RevenueCat are wired and the `subscriptions` table starts
+// receiving real rows, set this to `false` to restore the normal entitlement
+// resolution (free until proven plus).
+const BETA_GRANT_PLUS_TO_ALL_USERS = true;
+
 /** Resolve the caller from their Supabase JWT. Returns null if unauthenticated. */
 export async function getCaller(
   accessToken: string
@@ -28,6 +41,12 @@ export async function getCaller(
 
 /** A user's current entitlement. Absence of a subscription row = free. */
 export async function getEntitlement(userId: string): Promise<Entitlement> {
+  // Beta short-circuit — see `BETA_GRANT_PLUS_TO_ALL_USERS` above. Bypasses the
+  // subscriptions table entirely until the paywall ships. `userId` is referenced
+  // so eslint/no-unused-vars stays happy and so audit logs still tie back to a
+  // real authenticated user.
+  if (BETA_GRANT_PLUS_TO_ALL_USERS && userId) return "plus";
+
   const admin = getSupabaseAdmin();
   const { data } = await admin
     .from("subscriptions")
