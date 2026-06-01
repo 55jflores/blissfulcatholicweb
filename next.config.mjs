@@ -11,6 +11,17 @@ const nextConfig = {
       "./node_modules/romcal/dist/calendars/**",
       "./node_modules/romcal/dist/locales/**",
     ],
+    // Privacy policy markdown read by app/privacy/page.tsx at build time.
+    "/privacy": ["./docs/privacy.md"],
+  },
+
+  // Belt-and-suspenders trailing-slash handling. Vercel normalizes most of
+  // these by default, but an explicit 308 redirect makes /privacy/ → /privacy
+  // deterministic regardless of how an external link is formatted.
+  async redirects() {
+    return [
+      { source: "/privacy/", destination: "/privacy", permanent: true },
+    ];
   },
 };
 

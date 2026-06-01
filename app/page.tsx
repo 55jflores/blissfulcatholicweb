@@ -12,6 +12,7 @@ export default function Home() {
         justifyContent: "center",
         textAlign: "center",
         padding: "2rem",
+        position: "relative",
       }}
     >
       <div style={{ color: "var(--gold)", fontSize: "1.5rem", marginBottom: "1.25rem" }}>
@@ -31,6 +32,31 @@ export default function Home() {
       >
         An AI spiritual companion for the Catholic faith. The app is on its way.
       </p>
+
+      <footer
+        style={{
+          position: "absolute",
+          bottom: "1.5rem",
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          gap: "1.25rem",
+          fontSize: "0.85rem",
+          color: "var(--ink-soft)",
+        }}
+      >
+        <a
+          href="/privacy"
+          style={{
+            color: "var(--ink-soft)",
+            textDecoration: "none",
+            opacity: 0.75,
+          }}
+        >
+          Privacy
+        </a>
+      </footer>
     </main>
   );
 }
