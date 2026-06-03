@@ -1,10 +1,10 @@
 # Blissful Catholic — Privacy Policy
 
-**Effective: [Date — fill in when publishing]**
+**Effective: June 02, 2026**
 
-Blissful Catholic ("we," "us," "our," or "the app") helps Catholics walk through each day with prayer, the liturgical calendar, scripture, the saints, and personal reflection. This Privacy Policy explains what information we collect, how we use it, and the choices you have. We've tried to write it in plain language.
+The app Blissful Catholic helps Catholics walk through each day with prayer, the liturgical calendar, scripture, the saints, and personal reflection. This Privacy Policy explains what information we collect, how we use it, and the choices you have. We've tried to write it in plain language.
 
-If you have questions, contact us at **[privacy@blissfulcatholic.com — replace with your real email]**.
+If you have questions, contact us at **jesus.flores1008@gmail.com**.
 
 ---
 
@@ -199,7 +199,7 @@ For changes that materially affect how we collect or use your personal informati
 
 If you have questions about this Privacy Policy, want to exercise any of your rights, or wish to make a complaint, please contact us:
 
-**Email:** [privacy@blissfulcatholic.com — replace with your real email]
+**Email:** jesus.flores1008@gmail.com
 
 For users in the EEA: if you believe we have not adequately addressed your concerns, you have the right to lodge a complaint with your local data protection authority.
 
