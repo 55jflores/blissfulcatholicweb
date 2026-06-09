@@ -46,12 +46,13 @@ const SONNET = "claude-sonnet-4-6";
 const OPUS = "claude-opus-4-7";
 
 const FEATURE_MODEL: Record<FeatureKey, FeatureModel> = {
-  daily:           { model: SONNET, effort: "low",    thinking: false }, // short reflection, free, snappy
-  lectio:          { model: OPUS,   effort: "medium", thinking: true },  // contemplative, restrained
-  catechism:       { model: OPUS,   effort: "high",   thinking: true },  // doctrine + CCC citations
-  confession_prep: { model: OPUS,   effort: "high",   thinking: true },  // moral accuracy + gentleness
-  saint:           { model: OPUS,   effort: "medium", thinking: true },  // factual, no fabrication
-  journal_insight: { model: OPUS,   effort: "medium", thinking: true },  // pastoral, not over-analyzing
+  daily:             { model: SONNET, effort: "low",    thinking: false }, // short reflection, free, snappy
+  lectio:            { model: OPUS,   effort: "medium", thinking: true },  // contemplative, restrained
+  scripture_explain: { model: OPUS,   effort: "medium", thinking: true },  // explain a verse, faithful + accessible
+  catechism:         { model: OPUS,   effort: "high",   thinking: true },  // doctrine + CCC citations
+  confession_prep:   { model: OPUS,   effort: "high",   thinking: true },  // moral accuracy + gentleness
+  saint:             { model: OPUS,   effort: "medium", thinking: true },  // factual, no fabrication
+  journal_insight:   { model: OPUS,   effort: "medium", thinking: true },  // pastoral, not over-analyzing
 };
 
 type ClientMessage = { role: "user" | "assistant"; content: string };
