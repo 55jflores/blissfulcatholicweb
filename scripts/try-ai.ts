@@ -31,7 +31,7 @@ async function main() {
 
   const anthropic = new Anthropic();
   const stream = anthropic.messages.stream({
-    model: "claude-opus-4-7",
+    model: "claude-opus-4-8",
     max_tokens: 2048,
     thinking: { type: "adaptive" },
     output_config: { effort: "medium" },

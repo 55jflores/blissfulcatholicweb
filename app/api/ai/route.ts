@@ -43,7 +43,7 @@ type FeatureModel = {
 };
 
 const SONNET = "claude-sonnet-4-6";
-const OPUS = "claude-opus-4-7";
+const OPUS = "claude-opus-4-8";
 
 const FEATURE_MODEL: Record<FeatureKey, FeatureModel> = {
   daily:             { model: SONNET, effort: "low",    thinking: false }, // short reflection, free, snappy
