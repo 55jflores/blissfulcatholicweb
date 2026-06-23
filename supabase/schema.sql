@@ -170,3 +170,18 @@ create policy api_usage_select_self on public.api_usage
 drop policy if exists feature_events_insert_any on public.feature_events;
 create policy feature_events_insert_any on public.feature_events
   for insert to anon, authenticated with check (true);
+
+-- ---------------------------------------------------------------------------
+-- daily_reflections: the pre-generated shared reflection on the day's Gospel.
+-- One row per calendar day (append-by-date; upsert keyed on `date`). Written by
+-- /api/cron/daily-reflection and read by /api/daily-reflection — both via the
+-- service role. The app never queries this table directly, so RLS is enabled
+-- with NO policy: locked to the service role, denied to anon / JWT clients.
+create table if not exists public.daily_reflections (
+  date            text primary key,          -- 'YYYY-MM-DD'
+  gospel_citation text not null,
+  body            text not null,
+  generated_at    timestamptz not null default now()
+);
+
+alter table public.daily_reflections enable row level security;

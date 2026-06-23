@@ -147,6 +147,18 @@ function main() {
   fs.writeFileSync(OUT_FILE, JSON.stringify(out));
   const stats = fs.statSync(OUT_FILE);
   console.log(`\nWrote ${OUT_FILE} (${(stats.size / 1024 / 1024).toFixed(2)} MB, ${books.length} books)`);
+
+  // Gospels-only subset (~480 KB) for the web backend's daily-reflection cron.
+  // Same source of truth as the iOS bundle, so it can't drift. COMMIT this file
+  // (data/ is not gitignored) — the cron imports it at build time.
+  const gospels = {
+    books: books.filter((b) => ["MAT", "MRK", "LUK", "JHN"].includes(b.code)),
+  };
+  const GOSPELS_FILE = path.join(__dirname, "..", "data", "gospels.webce.json");
+  fs.mkdirSync(path.dirname(GOSPELS_FILE), { recursive: true });
+  fs.writeFileSync(GOSPELS_FILE, JSON.stringify(gospels));
+  const gStats = fs.statSync(GOSPELS_FILE);
+  console.log(`Wrote ${GOSPELS_FILE} (${(gStats.size / 1024).toFixed(0)} KB, Gospels-only — git add this)`);
 }
 
 main();
