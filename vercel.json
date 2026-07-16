@@ -1,5 +1,6 @@
 {
   "crons": [
-    { "path": "/api/cron/daily-reflection", "schedule": "0 8 * * *" }
+    { "path": "/api/cron/daily-reflection", "schedule": "0 8 * * *" },
+    { "path": "/api/cron/daily-crossword", "schedule": "30 8 * * *" }
   ]
 }
