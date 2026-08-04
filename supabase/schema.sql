@@ -185,19 +185,3 @@ create table if not exists public.daily_reflections (
 );
 
 alter table public.daily_reflections enable row level security;
-
--- ---------------------------------------------------------------------------
--- daily_crosswords: the pre-generated daily Catholic mini crossword. One row
--- per calendar day. The cron NEVER overwrites an existing date — shipped
--- puzzles are immutable, because dictionary edits change the deterministic
--- output and a player's half-solved grid must not shift under them. Written by
--- /api/cron/daily-crossword and read by /api/daily-crossword — both via the
--- service role, so RLS is enabled with NO policy (denied to anon / JWT clients).
-create table if not exists public.daily_crosswords (
-  date         text primary key,          -- 'YYYY-MM-DD'
-  puzzle       jsonb not null,            -- full camelCase payload, served verbatim
-  theme        text,                      -- feast/season label (analytics only)
-  generated_at timestamptz not null default now()
-);
-
-alter table public.daily_crosswords enable row level security;
